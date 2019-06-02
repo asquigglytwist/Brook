@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Brook
+namespace Brook.MainWin
 {
     /// <summary>
     /// Interaction logic for App.xaml
