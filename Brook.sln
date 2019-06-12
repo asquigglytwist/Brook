@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brook", "Src\Brook\Brook.csproj", "{0A72166B-273A-4E28-9E20-6060D2B9450D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrookGUI", "Src\BrookGUI\BrookGUI.csproj", "{0A72166B-273A-4E28-9E20-6060D2B9450D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
