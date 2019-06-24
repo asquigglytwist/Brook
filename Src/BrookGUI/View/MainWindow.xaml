@@ -7,6 +7,37 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Menu x:Name="mnuTopBar" DockPanel.Dock="Top" MinHeight="24" />
+        <ListView x:Name="lsvSoundFiles" VerticalAlignment="Top" DockPanel.Dock="Bottom">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding=
+                          "{Binding Path=Album}"
+                      Header="Album" />
+                    <GridViewColumn DisplayMemberBinding=
+                          "{Binding Path=Title}"
+                      Header="Title" />
+                    <GridViewColumn DisplayMemberBinding=
+                          "{Binding Path=Year}"
+                      Header="Year" />
+                    <GridViewColumn DisplayMemberBinding=
+                          "{Binding Path=Track}"
+                      Header="Track" />
+                    <GridViewColumn DisplayMemberBinding=
+                          "{Binding Path=Duration}"
+                      Header="Duration" />
+                    <GridViewColumn DisplayMemberBinding=
+                          "{Binding Path=Lyrics}"
+                      Header="Lyrics" />
+                    <GridViewColumn DisplayMemberBinding=
+                          "{Binding Path=Comment}"
+                      Header="Comment" />
+                    <GridViewColumn DisplayMemberBinding=
+                          "{Binding Path=SourceAudioFile}"
+                      Header="SourceAudioFile" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
     </Grid>
 </Window>
