@@ -33,5 +33,31 @@ namespace Brook.MainWin.ViewModel
                 AllSoundFiles.Add(sFile);
             }
         }
+
+        #region LSVSelectedItemChanged
+        // [BIB]:  https://stackoverflow.com/a/12297537
+        SoundFile _selectedItem;
+
+        public SoundFile SelectedItem
+        {
+            get
+            {
+                return _selectedItem;
+            }
+            set
+            {
+                if (value == _selectedItem)
+                {
+                    return;
+                }
+                _selectedItem = value;
+                HandleLSVSelectionChanged(SelectedItem);
+            }
+        }
+
+        public void HandleLSVSelectionChanged(object p)
+        {
+        }
+        #endregion
     }
 }

@@ -8,7 +8,7 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <Menu x:Name="mnuTopBar" DockPanel.Dock="Top" MinHeight="24" />
-        <ListView x:Name="lsvSoundFiles" VerticalAlignment="Top" DockPanel.Dock="Bottom">
+        <ListView x:Name="lsvSoundFiles" VerticalAlignment="Top" DockPanel.Dock="Bottom" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding=
