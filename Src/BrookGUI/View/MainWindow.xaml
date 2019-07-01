@@ -7,18 +7,26 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <!-- [BIB]:  https://stackoverflow.com/questions/1132967/scrollviewer-not-scrolling-in-wpf-->
+        <ScrollViewer>
             <StackPanel Margin="10">
                 <Menu x:Name="mnuTopBar" MinHeight="24" />
                 <ListView x:Name="lsvSoundFiles" MinHeight="90"
                   SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                    <!-- [BIB]:  https://stackoverflow.com/questions/8932720/listview-inside-of-scrollviewer-prevents-scrollviewer-scroll-->
+                    <ListView.Template>
+                        <ControlTemplate>
+                            <ItemsPresenter></ItemsPresenter>
+                        </ControlTemplate>
+                    </ListView.Template>
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="AlbumArt">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Stretch="Fill" Source="{Binding Path=AlbumArtData}" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                                            <!-- [BIB]:  https://stackoverflow.com/questions/21927985/wpf-c-sharp-displaying-image-at-xaml-->
+                                            <Image Width="50" Height="50" Stretch="Fill" Source="{Binding Path=AlbumArtData}" HorizontalAlignment="Center" VerticalAlignment="Top" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -50,12 +58,6 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <Border BorderThickness="10" BorderBrush="Black">
-                    <!-- [BIB]:  https://stackoverflow.com/questions/21927985/wpf-c-sharp-displaying-image-at-xaml-->
-                    <Image x:Name="imgAlbumArt" VerticalAlignment="Bottom" Stretch="Fill" StretchDirection="Both"
-               Source="{Binding Path=SelectedItemAlbumArtData, Mode=OneWay}"
-               MinHeight="460" MinWidth="460" ToolTip="AlbumArt image" />
-                </Border>
             </StackPanel>
         </ScrollViewer>
     </Grid>

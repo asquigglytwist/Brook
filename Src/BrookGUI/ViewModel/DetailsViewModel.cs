@@ -64,9 +64,6 @@ namespace Brook.MainWin.ViewModel
         public void HandleLSVSelectionChanged(object p)
         {
             SelectedItemAlbumArtData = SelectedItem.AlbumArtData;
-#if DEBUG
-            //SelectedItemAlbumArtData.Save(System.IO.Path.Combine(_rootDirPath, "temp.png"));
-#endif
         }
         #endregion
     }
