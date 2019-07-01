@@ -7,37 +7,56 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Menu x:Name="mnuTopBar" DockPanel.Dock="Top" MinHeight="24" />
-        <ListView x:Name="lsvSoundFiles" VerticalAlignment="Top" DockPanel.Dock="Bottom" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding=
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="10">
+                <Menu x:Name="mnuTopBar" MinHeight="24" />
+                <ListView x:Name="lsvSoundFiles" MinHeight="90"
+                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="AlbumArt">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Stretch="Fill" Source="{Binding Path=AlbumArtData}" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding=
                           "{Binding Path=Album}"
                       Header="Album" />
-                    <GridViewColumn DisplayMemberBinding=
+                            <GridViewColumn DisplayMemberBinding=
                           "{Binding Path=Title}"
                       Header="Title" />
-                    <GridViewColumn DisplayMemberBinding=
+                            <GridViewColumn DisplayMemberBinding=
                           "{Binding Path=Year}"
                       Header="Year" />
-                    <GridViewColumn DisplayMemberBinding=
+                            <GridViewColumn DisplayMemberBinding=
                           "{Binding Path=Track}"
                       Header="Track" />
-                    <GridViewColumn DisplayMemberBinding=
+                            <GridViewColumn DisplayMemberBinding=
                           "{Binding Path=Duration}"
                       Header="Duration" />
-                    <GridViewColumn DisplayMemberBinding=
+                            <GridViewColumn DisplayMemberBinding=
                           "{Binding Path=Lyrics}"
                       Header="Lyrics" />
-                    <GridViewColumn DisplayMemberBinding=
+                            <GridViewColumn DisplayMemberBinding=
                           "{Binding Path=Comment}"
                       Header="Comment" />
-                    <GridViewColumn DisplayMemberBinding=
+                            <GridViewColumn DisplayMemberBinding=
                           "{Binding Path=SourceAudioFile}"
                       Header="SourceAudioFile" />
-                </GridView>
-            </ListView.View>
-        </ListView>
-
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Border BorderThickness="10" BorderBrush="Black">
+                    <!-- [BIB]:  https://stackoverflow.com/questions/21927985/wpf-c-sharp-displaying-image-at-xaml-->
+                    <Image x:Name="imgAlbumArt" VerticalAlignment="Bottom" Stretch="Fill" StretchDirection="Both"
+               Source="{Binding Path=SelectedItemAlbumArtData, Mode=OneWay}"
+               MinHeight="460" MinWidth="460" ToolTip="AlbumArt image" />
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>
