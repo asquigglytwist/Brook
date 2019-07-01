@@ -21,9 +21,19 @@ namespace Brook.MainWin
     /// </summary>
     public partial class MainWindow : Window
     {
+        DetailsViewModel detailsVM;
+
         public MainWindow()
         {
             InitializeComponent();
+            InitDVM(@"C:\TestData\");
+        }
+
+        private void InitDVM(string rootDir)
+        {
+            detailsVM = new DetailsViewModel(rootDir);
+            DataContext = detailsVM;
+            lsvSoundFiles.ItemsSource = detailsVM.AllSoundFiles;
         }
     }
 }
