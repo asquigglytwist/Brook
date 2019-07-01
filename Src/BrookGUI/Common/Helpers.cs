@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 
 namespace Brook.MainWin.Utils
@@ -40,6 +42,25 @@ namespace Brook.MainWin.Utils
         public static string CurrentTimeForLogging
         {
             get { return DateTime.UtcNow.ToString("yyyy-MM-dd  HH:mm:ss"); }
+        }
+
+        // [BIB]:  https://stackoverflow.com/questions/3573863/create-an-empty-bitmapsource-in-c-sharp
+        public static byte[] EmptyBitmap
+        {
+            get
+            {
+                var bmptmp = BitmapSource.Create(1, 1, 96, 96, PixelFormats.Bgr24, null, new byte[3] { 0, 0, 0 }, 3);
+                var imgcreated = new TransformedBitmap(bmptmp, new ScaleTransform(1, 1));
+                byte[] data;
+                JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(imgcreated));
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    encoder.Save(ms);
+                    data = ms.ToArray();
+                }
+                return data;
+            }
         }
         #endregion
 
@@ -206,6 +227,20 @@ namespace Brook.MainWin.Utils
             Logger.Instance.FlushIt();
             Logger.Instance.TraceExit();
             return procExitCode;
+        }
+
+        // [BIB]:  https://stackoverflow.com/questions/35804375/how-do-i-save-a-bitmapimage-from-memory-into-a-file-in-wpf-c
+        public static void Save(this BitmapImage image, string filePath)
+        {
+            if (image.Height > 60 && image.Width > 60)
+            {
+                BitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(image));
+                using (var fileStream = new System.IO.FileStream(filePath, System.IO.FileMode.Create))
+                {
+                    encoder.Save(fileStream);
+                }
+            }
         }
 
         //public static string TryGetConfigValue(this IniFile configFile,
