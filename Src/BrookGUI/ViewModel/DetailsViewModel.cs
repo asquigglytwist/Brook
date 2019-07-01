@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace Brook.MainWin.ViewModel
 {
@@ -55,8 +56,17 @@ namespace Brook.MainWin.ViewModel
             }
         }
 
+        public byte[] SelectedItemAlbumArtData
+        {
+            get; private set;
+        }
+
         public void HandleLSVSelectionChanged(object p)
         {
+            SelectedItemAlbumArtData = SelectedItem.AlbumArtData;
+#if DEBUG
+            //SelectedItemAlbumArtData.Save(System.IO.Path.Combine(_rootDirPath, "temp.png"));
+#endif
         }
         #endregion
     }
