@@ -13,5 +13,11 @@ namespace Brook.MainWin
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            // [BIB]:  https://stackoverflow.com/a/6805300
+            TagLib.Id3v2.Tag.DefaultVersion = 3;
+            TagLib.Id3v2.Tag.ForceDefaultVersion = true;
+        }
     }
 }
