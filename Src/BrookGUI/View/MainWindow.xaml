@@ -16,7 +16,7 @@
                     <!-- [BIB]:  https://stackoverflow.com/questions/8932720/listview-inside-of-scrollviewer-prevents-scrollviewer-scroll-->
                     <ListView.Template>
                         <ControlTemplate>
-                            <ItemsPresenter></ItemsPresenter>
+                            <ItemsPresenter />
                         </ControlTemplate>
                     </ListView.Template>
                     <ListView.View>
@@ -57,6 +57,15 @@
                       Header="SourceAudioFile" />
                         </GridView>
                     </ListView.View>
+                    <ListView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </ListView.GroupStyle>
                 </ListView>
             </StackPanel>
         </ScrollViewer>

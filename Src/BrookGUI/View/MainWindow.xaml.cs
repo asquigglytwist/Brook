@@ -34,6 +34,10 @@ namespace Brook.MainWin
             detailsVM = new DetailsViewModel(rootDir);
             DataContext = detailsVM;
             lsvSoundFiles.ItemsSource = detailsVM.AllSoundFiles;
+            // [BIB]:  https://www.wpf-tutorial.com/listview-control/listview-grouping/
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lsvSoundFiles.ItemsSource);
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription("Year");
+            view.GroupDescriptions.Add(groupDescription);
         }
     }
 }
