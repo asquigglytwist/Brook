@@ -1,9 +1,11 @@
 ﻿using Brook.MainWin.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace Brook.MainWin.Model
 {
@@ -59,6 +61,13 @@ namespace Brook.MainWin.Model
         public string Comment
         { get; private set; }
 
+        // [BIB]:  https://stackoverflow.com/questions/41998142/converting-system-drawing-image-to-system-windows-media-imagesource-with-no-resu
+        public BitmapImage AlbumArt
+        { get; private set; }
+
+        public byte[] AlbumArtData
+        { get; private set; }
+
         public void Init()
         {
             _tlf = TagLib.File.Create(SourceAudioFile);
@@ -74,6 +83,26 @@ namespace Brook.MainWin.Model
             Genres = fileTagData.Genres;
             Lyrics = fileTagData.Lyrics;
             Comment = fileTagData.Comment;
+            var temp = _tlf.Tag.Pictures.FirstOrDefault()?.Data?.Data;
+            AlbumArtData = temp ?? Helpers.EmptyBitmap;
+            AlbumArt = ImageFromByteArray(AlbumArtData);
+        }
+
+        // [BIB]:  https://social.msdn.microsoft.com/Forums/vstudio/en-US/cc84c5ca-a3fc-48df-84ec-8a30191fbe54/wpf-set-image-using-bytevector?forum=wpf
+        static BitmapImage ImageFromByteArray(byte[] byteData)
+        {
+            var img = new BitmapImage();
+            img.BeginInit();
+            if (byteData?.Length > 0)
+            {
+                using (var ms = new MemoryStream(byteData))
+                {
+                    img.CacheOption = BitmapCacheOption.OnLoad;
+                    img.StreamSource = ms;
+                }
+            }
+            img.EndInit();
+            return img;
         }
     }
 }
