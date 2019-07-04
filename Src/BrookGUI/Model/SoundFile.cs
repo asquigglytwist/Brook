@@ -62,10 +62,13 @@ namespace Brook.MainWin.Model
         { get; private set; }
 
         // [BIB]:  https://stackoverflow.com/questions/41998142/converting-system-drawing-image-to-system-windows-media-imagesource-with-no-resu
-        public BitmapImage AlbumArt
-        { get; private set; }
+        //public BitmapImage AlbumArtThumbNail
+        //{ get; private set; }
 
         public byte[] AlbumArtData
+        { get; private set; }
+
+        public string AlbumArtHash
         { get; private set; }
 
         public void Init()
@@ -74,7 +77,15 @@ namespace Brook.MainWin.Model
             Duration = _tlf.Properties.Duration;
             var fileTagData = _tlf.Tag;
             Album = fileTagData.Album;
+            if (string.IsNullOrWhiteSpace(Album))
+            {
+                Album = "--NA--";
+            }
             Title = fileTagData.Title;
+            if (string.IsNullOrWhiteSpace(Title))
+            {
+                Title = "--NA--";
+            }
             Year = fileTagData.Year;
             Track = fileTagData.Track;
             Performers = fileTagData.Performers;
@@ -84,25 +95,16 @@ namespace Brook.MainWin.Model
             Lyrics = fileTagData.Lyrics;
             Comment = fileTagData.Comment;
             var temp = _tlf.Tag.Pictures.FirstOrDefault()?.Data?.Data;
-            AlbumArtData = temp ?? Helpers.EmptyBitmap;
-            AlbumArt = ImageFromByteArray(AlbumArtData);
-        }
-
-        // [BIB]:  https://social.msdn.microsoft.com/Forums/vstudio/en-US/cc84c5ca-a3fc-48df-84ec-8a30191fbe54/wpf-set-image-using-bytevector?forum=wpf
-        static BitmapImage ImageFromByteArray(byte[] byteData)
-        {
-            var img = new BitmapImage();
-            img.BeginInit();
-            if (byteData?.Length > 0)
+            if (temp == null)
             {
-                using (var ms = new MemoryStream(byteData))
-                {
-                    img.CacheOption = BitmapCacheOption.OnLoad;
-                    img.StreamSource = ms;
-                }
+                AlbumArtData = Helpers.EmptyBitmap;
+                AlbumArtHash = "--NA--";
             }
-            img.EndInit();
-            return img;
+            else
+            {
+                AlbumArtData = temp.ToBitmapImage().ToByteArray();
+                AlbumArtHash = AlbumArtData.MD5Hash();
+            }
         }
     }
 }
