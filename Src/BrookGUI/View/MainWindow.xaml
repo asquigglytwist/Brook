@@ -6,6 +6,11 @@
         xmlns:local="clr-namespace:Brook.MainWin"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <Style TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+        </Style>
+    </Window.Resources>
     <Grid>
         <!-- [BIB]:  https://stackoverflow.com/questions/1132967/scrollviewer-not-scrolling-in-wpf-->
         <ScrollViewer>
@@ -26,14 +31,21 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <!-- [BIB]:  https://stackoverflow.com/questions/21927985/wpf-c-sharp-displaying-image-at-xaml-->
-                                            <Image Width="50" Height="50" Stretch="Fill" Source="{Binding Path=AlbumArtData}" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                                            <Image
+                                                Stretch="Fill" Source="{Binding Path=AlbumArtData}"
+                                                HorizontalAlignment="Center" VerticalAlignment="Top">
+                                                <!--<Image.Width>{Binding Source=(x:Static local:Common.Constants.DecodePixelWidth), Mode=OneWay}</Image.Width>-->
+                                                <Image.Width>120</Image.Width>
+                                                <!--<Image.Height>{Binding Source=(x:Static local:Common.Constants.DecodePixelHeight), Mode=OneWay}</Image.Height>-->
+                                                <Image.Height>120</Image.Height>
+                                            </Image>
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding=
+                            <!--<GridViewColumn DisplayMemberBinding=
                           "{Binding Path=Album}"
-                      Header="Album" />
+                      Header="Album" />-->
                             <GridViewColumn DisplayMemberBinding=
                           "{Binding Path=Title}"
                       Header="Title" />
@@ -59,11 +71,26 @@
                     </ListView.View>
                     <ListView.GroupStyle>
                         <GroupStyle>
-                            <GroupStyle.HeaderTemplate>
-                                <DataTemplate>
-                                    <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Name}"/>
-                                </DataTemplate>
-                            </GroupStyle.HeaderTemplate>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="{x:Type GroupItem}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <Expander IsExpanded="False">
+                                                    <Expander.Header>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
+                                                            <TextBlock Text="{Binding ItemCount}" FontSize="22" Foreground="Green" FontWeight="Bold" FontStyle="Italic" Margin="10,0,0,0" VerticalAlignment="Bottom" />
+                                                            <TextBlock Text=" item(s)" FontSize="22" Foreground="Silver" FontStyle="Italic" VerticalAlignment="Bottom" />
+                                                        </StackPanel>
+                                                    </Expander.Header>
+                                                    <ItemsPresenter />
+                                                </Expander>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
                         </GroupStyle>
                     </ListView.GroupStyle>
                 </ListView>
