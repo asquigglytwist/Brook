@@ -36,7 +36,7 @@ namespace Brook.MainWin
             lsvSoundFiles.ItemsSource = detailsVM.AllSoundFiles;
             // [BIB]:  https://www.wpf-tutorial.com/listview-control/listview-grouping/
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lsvSoundFiles.ItemsSource);
-            PropertyGroupDescription groupDescription = new PropertyGroupDescription("Year");
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription("AlbumArtHash");
             view.GroupDescriptions.Add(groupDescription);
         }
     }
