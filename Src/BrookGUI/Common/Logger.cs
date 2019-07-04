@@ -26,20 +26,24 @@ namespace Brook.MainWin.Utils
             Log("Start", "=== Logging started ===");
         }
 
-        ~Logger()
-        {
-            if (w != null)
-            {
-                Dispose();
-            }
-        }
+        //~Logger()
+        //{
+        //    if (w != null)
+        //    {
+        //        Dispose();
+        //    }
+        //}
 
         public void Dispose()
         {
-            Log("_Stop", "=== Logging stopped ===");
-            w.Flush();
-            w.Close();
-            w = null;
+            // [BIB]:  https://stackoverflow.com/questions/2529222/class-destructor-problem
+            lock (w)
+            {
+                Log("_Stop", "=== Logging stopped ===");
+                w.Flush();
+                w.Close();
+                w = null;
+            }
         }
 
         public void Trace(string logMessage)
