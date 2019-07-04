@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
@@ -175,6 +176,102 @@ namespace Brook.MainWin.Utils
         #endregion
 
         #region Extensions
+        public static System.Drawing.Bitmap ToBitmapImage(this byte[] byteData)
+        {
+            // [BIB]:  https://social.msdn.microsoft.com/Forums/vstudio/en-US/cc84c5ca-a3fc-48df-84ec-8a30191fbe54/wpf-set-image-using-bytevector?forum=wpf
+            //var img = new BitmapImage();
+            //img.BeginInit();
+            int newWidth = 22, newHeight = 22;
+            var resizedImage = new System.Drawing.Bitmap(newWidth, newHeight);
+            if (byteData?.Length > 0)
+            {
+                using (var ms = new MemoryStream(byteData))
+                {
+                    // [BIB]:  https://www.c-sharpcorner.com/UploadFile/mahesh/thumbnail-in-wpf/
+                    //img.DecodePixelWidth = 120;// (int)Common.Constants.DecodePixelWidth;
+                    // [BIB]:  https://stackoverflow.com/questions/17072775/changing-the-dimensions-of-a-bitmapimage-in-wpf-and-what-kind-of-objects-can-i
+                    //img.DecodePixelHeight = (int)Common.Constants.DecodePixelHeight;
+                    //img.CacheOption = BitmapCacheOption.OnLoad;
+                    //img.StreamSource = ms;
+                    // [BIB]:  https://stackoverflow.com/questions/10663056/wpf-can-i-use-system-drawing-in-wpf
+                    using (var legacyImage = System.Drawing.Image.FromStream(ms))
+                    {
+#if DEBUG
+                        //legacyImage.Save(Path.Combine(".", "Test\\Original.bmp"));
+#endif
+                        // [BIB]:  https://stackoverflow.com/questions/9173904/byte-array-to-image-conversion/14673666
+                        // [BIB]:  https://stackoverflow.com/questions/3290060/getting-an-image-object-from-a-byte-array
+                        using (var gr = System.Drawing.Graphics.FromImage(resizedImage))
+                        {
+                            // [BIB]:  https://stackoverflow.com/questions/87753/resizing-an-image-without-losing-any-quality
+                            gr.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                            gr.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                            gr.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                            gr.DrawImage(legacyImage, new System.Drawing.Rectangle(0, 0, newWidth, newHeight));
+                        }
+#if DEBUG
+                        //resizedImage.Save(Path.Combine(".", "Test\\Resized.bmp"));
+#endif
+                    }
+                }
+            }
+            //img.EndInit();
+            //var txImg = new TransformedBitmap();
+            //txImg.BeginInit();
+            //txImg.Source = img;
+            //txImg.Transform = new ScaleTransform(0.5d, 0.5d);
+            //txImg.EndInit();
+            //return txImg;
+            //return img;
+            return resizedImage;
+        }
+
+        public static byte[] ToByteArray(this System.Drawing.Bitmap img)
+        {
+            byte[] imgData;
+            //var encoder = new JpegBitmapEncoder();
+            //encoder.Frames.Add(BitmapFrame.Create(img));
+            using (var ms = new MemoryStream())
+            {
+                img.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                imgData = ms.ToArray();
+                //encoder.Save(ms);
+                //imgData = ms.ToArray();
+            }
+            return imgData;
+        }
+
+        public static string MD5Hash(this byte[] byteData)
+        {
+            // [BIB]:  https://stackoverflow.com/questions/11454004/calculate-a-md5-hash-from-a-string
+            // Use input string to calculate MD5 hash
+            using (var md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] hashBytes = md5.ComputeHash(byteData);
+                // Convert the byte array to hexadecimal string
+                var sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
+            }
+        }
+
+        //public static byte[] ToByteArray(this BitmapImage img)
+        //{
+        //    Stream stream = img.StreamSource;
+        //    byte[] buffer = new byte[stream.Length];
+        //    if (stream != null && stream.Length > 0)
+        //    {
+        //        using (BinaryReader br = new BinaryReader(stream))
+        //        {
+        //            buffer = br.ReadBytes((Int32)stream.Length);
+        //        }
+        //    }
+        //    return buffer;
+        //}
+
         public static string AsLoggableString(this Exception e)
         {
             var text = $"Exception occurred;  {e.Message}{NewLine}{e.StackTrace}";
