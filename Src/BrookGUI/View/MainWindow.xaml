@@ -13,20 +13,32 @@
     </Window.Resources>
     <Grid>
         <!-- [BIB]:  https://stackoverflow.com/questions/1132967/scrollviewer-not-scrolling-in-wpf-->
-        <ScrollViewer>
+        <StackPanel>
             <StackPanel Margin="10">
-                <Menu x:Name="mnuTopBar" MinHeight="24" />
+                    <TextBox x:Name="txtSearch" Height="32"
+                             TextChanged="txtSearch_TextChanged" DockPanel.Dock="Right" />
+                <!--<DockPanel Height="25">
+                    <Menu x:Name="mnuTopBar" MinHeight="24" DockPanel.Dock="Left">
+                        <MenuItem>_File</MenuItem>
+                    --><!--<Button x:Name="btnSearch" Content="Search" HorizontalAlignment="Right" />--><!--
+                    </Menu>
+                </DockPanel>-->
                 <ListView x:Name="lsvSoundFiles" MinHeight="90"
-                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ScrollViewer.CanContentScroll="True"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          ScrollViewer.HorizontalScrollBarVisibility="Visible">
                     <!-- [BIB]:  https://stackoverflow.com/questions/8932720/listview-inside-of-scrollviewer-prevents-scrollviewer-scroll-->
-                    <ListView.Template>
+                    <!--<ListView.Template>
                         <ControlTemplate>
                             <ItemsPresenter />
                         </ControlTemplate>
-                    </ListView.Template>
+                    </ListView.Template>-->
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="AlbumArt">
+                            <GridViewColumn>
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Tag="AlbumArt" Click="lsvSoundFilesColumnHeader_Click">AlbumArt</GridViewColumnHeader>
+                                </GridViewColumn.Header>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -46,27 +58,41 @@
                             <!--<GridViewColumn DisplayMemberBinding=
                           "{Binding Path=Album}"
                       Header="Album" />-->
-                            <GridViewColumn DisplayMemberBinding=
-                          "{Binding Path=Title}"
-                      Header="Title" />
-                            <GridViewColumn DisplayMemberBinding=
-                          "{Binding Path=Year}"
-                      Header="Year" />
-                            <GridViewColumn DisplayMemberBinding=
-                          "{Binding Path=Track}"
-                      Header="Track" />
-                            <GridViewColumn DisplayMemberBinding=
-                          "{Binding Path=Duration}"
-                      Header="Duration" />
-                            <GridViewColumn DisplayMemberBinding=
-                          "{Binding Path=Lyrics}"
-                      Header="Lyrics" />
-                            <GridViewColumn DisplayMemberBinding=
-                          "{Binding Path=Comment}"
-                      Header="Comment" />
-                            <GridViewColumn DisplayMemberBinding=
-                          "{Binding Path=SourceAudioFile}"
-                      Header="SourceAudioFile" />
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Title}">
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Tag="Title" Click="lsvSoundFilesColumnHeader_Click">Title</GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Year}">
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Tag="Year" Click="lsvSoundFilesColumnHeader_Click">Year</GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Track}">
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Tag="Track" Click="lsvSoundFilesColumnHeader_Click">Track</GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Duration}">
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Tag="Duration" Click="lsvSoundFilesColumnHeader_Click">Duration</GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Lyrics}">
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Tag="Lyrics" Click="lsvSoundFilesColumnHeader_Click">Lyrics</GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Comment}">
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Tag="Comment" Click="lsvSoundFilesColumnHeader_Click">Comment</GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=SourceAudioFile}">
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Tag="SourceAudioFile" Click="lsvSoundFilesColumnHeader_Click">SourceAudioFile</GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
                         </GridView>
                     </ListView.View>
                     <ListView.GroupStyle>
@@ -76,7 +102,7 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate>
-                                                <Expander IsExpanded="False">
+                                                <Expander IsExpanded="True">
                                                     <Expander.Header>
                                                         <StackPanel Orientation="Horizontal">
                                                             <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
@@ -95,6 +121,6 @@
                     </ListView.GroupStyle>
                 </ListView>
             </StackPanel>
-        </ScrollViewer>
+        </StackPanel>
     </Grid>
 </Window>
