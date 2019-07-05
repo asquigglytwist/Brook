@@ -25,10 +25,11 @@
                 <!--
                     </Menu>
                 </DockPanel>-->
-                <ListView x:Name="lsvSoundFiles" MinHeight="90"
-                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ScrollViewer.CanContentScroll="True"
+                <ListView x:Name="lsvSoundFiles" MinHeight="90" SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                          ScrollViewer.CanContentScroll="False"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
-                          ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.IsDeferredScrollingEnabled="True">
                     <!-- [BIB]:  https://stackoverflow.com/questions/8932720/listview-inside-of-scrollviewer-prevents-scrollviewer-scroll-->
                     <ListView.Template>
                         <ControlTemplate>
@@ -37,6 +38,13 @@
                     </ListView.Template>
                     <ListView.View>
                         <GridView>
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Tag="{Binding ID}" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn>
                                 <GridViewColumn.Header>
                                     <GridViewColumnHeader Tag="AlbumArt" Click="lsvSoundFilesColumnHeader_Click">AlbumArt</GridViewColumnHeader>
