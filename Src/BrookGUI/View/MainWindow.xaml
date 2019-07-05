@@ -13,26 +13,28 @@
     </Window.Resources>
     <Grid>
         <!-- [BIB]:  https://stackoverflow.com/questions/1132967/scrollviewer-not-scrolling-in-wpf-->
-        <StackPanel>
-            <StackPanel Margin="10">
-                    <TextBox x:Name="txtSearch" Height="32"
+        <ScrollViewer Margin="10">
+            <ItemsControl>
+                <TextBox x:Name="txtSearch" Height="32"
                              TextChanged="txtSearch_TextChanged" DockPanel.Dock="Right" />
                 <!--<DockPanel Height="25">
                     <Menu x:Name="mnuTopBar" MinHeight="24" DockPanel.Dock="Left">
                         <MenuItem>_File</MenuItem>
-                    --><!--<Button x:Name="btnSearch" Content="Search" HorizontalAlignment="Right" />--><!--
+                    -->
+                <!--<Button x:Name="btnSearch" Content="Search" HorizontalAlignment="Right" />-->
+                <!--
                     </Menu>
                 </DockPanel>-->
                 <ListView x:Name="lsvSoundFiles" MinHeight="90"
                   SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ScrollViewer.CanContentScroll="True"
-                          ScrollViewer.VerticalScrollBarVisibility="Visible"
-                          ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto">
                     <!-- [BIB]:  https://stackoverflow.com/questions/8932720/listview-inside-of-scrollviewer-prevents-scrollviewer-scroll-->
-                    <!--<ListView.Template>
+                    <ListView.Template>
                         <ControlTemplate>
                             <ItemsPresenter />
                         </ControlTemplate>
-                    </ListView.Template>-->
+                    </ListView.Template>
                     <ListView.View>
                         <GridView>
                             <GridViewColumn>
@@ -120,7 +122,7 @@
                         </GroupStyle>
                     </ListView.GroupStyle>
                 </ListView>
-            </StackPanel>
-        </StackPanel>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </Window>
