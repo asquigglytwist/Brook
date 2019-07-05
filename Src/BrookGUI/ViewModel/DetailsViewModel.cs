@@ -38,7 +38,7 @@ namespace Brook.MainWin.ViewModel
             {
                 try
                 {
-                    var sFile = new SoundFile(mp3Files[i]);
+                    var sFile = new SoundFile(mp3Files[i], i);
                     sFile.Init();
                     AllSoundFiles.Add(sFile);
                     processedMp3Files++;
