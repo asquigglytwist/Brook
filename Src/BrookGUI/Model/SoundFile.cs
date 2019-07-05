@@ -13,7 +13,7 @@ namespace Brook.MainWin.Model
     {
         TagLib.File _tlf;
 
-        public SoundFile(string soundFilePath)
+        public SoundFile(string soundFilePath, int id)
         {
             if(Helpers.FileExists(soundFilePath))
             {
@@ -23,7 +23,11 @@ namespace Brook.MainWin.Model
             {
                 throw new Exception($"Audio file {soundFilePath} not found.");
             }
+            ID = id;
         }
+
+        public int ID
+        { get; private set; }
 
         public string SourceAudioFile
         { get; private set; }
